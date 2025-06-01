@@ -6,22 +6,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
+
+    protected $table = 'users';
+
+    /**
+     * Tentukan kolom-kolom yang bisa diisi secara massal:
+     * 'name', 'email', 'password', dan 'role'.
+     */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+        'name', 
+        'email', 
+        'password',  
+        'role', // admin, mahasiswa, dimwad
+    ];    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -38,11 +47,48 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    public function articles()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(\App\Models\Article::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(\App\Models\Comment::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function mahasiswa()
+    {
+        return $this->hasOne(Mahasiswa::class, 'userid');
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, 'userid');
+    }
+
+    public function dokumens()
+    {
+        return $this->hasMany(Dokumen::class, 'userid');
+    }
+
+    public function jadwalCoachings()
+    {
+        return $this->hasMany(JadwalCoaching::class, 'userid');
     }
 }
