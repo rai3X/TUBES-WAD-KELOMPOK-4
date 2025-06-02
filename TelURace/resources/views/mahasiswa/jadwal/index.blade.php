@@ -9,7 +9,6 @@
                     <h5 class="mb-0">Manajemen Jadwal Coaching/Wawancara</h5>
                 </div>
                 <div class="card-body">
-                    <!-- Form Pengajuan Jadwal -->
                     <div class="mb-4">
                         <h6 class="card-subtitle mb-3">Ajukan Jadwal Baru</h6>
                         <form action="{{ route('mahasiswa.jadwal.store') }}" method="POST">
@@ -58,7 +57,6 @@
                         </form>
                     </div>
 
-                    <!-- Daftar Jadwal -->
                     <div>
                         <h6 class="card-subtitle mb-3">Daftar Jadwal</h6>
                         @if(session('success'))
@@ -137,7 +135,6 @@
                                             </td>
                                         </tr>
 
-                                        <!-- Edit Modal -->
                                         @if($jadwal->status === 'pending')
                                             <div class="modal fade" id="editModal{{ $jadwal->id }}" tabindex="-1">
                                                 <div class="modal-dialog">

@@ -35,7 +35,6 @@ class JadwalController extends Controller
 
         $tanggalWaktu = Carbon::parse($request->tanggal . ' ' . $request->waktu);
 
-        // Check for existing schedule at the same time
         $existingSchedule = JadwalCoaching::where('tanggal_waktu', $tanggalWaktu)
             ->where('status', '!=', 'dibatalkan')
             ->first();
@@ -70,7 +69,6 @@ class JadwalController extends Controller
 
         $tanggalWaktu = Carbon::parse($request->tanggal . ' ' . $request->waktu);
 
-        // Check for existing schedule at the same time
         $existingSchedule = JadwalCoaching::where('tanggal_waktu', $tanggalWaktu)
             ->where('id', '!=', $id)
             ->where('status', '!=', 'dibatalkan')
