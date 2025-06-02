@@ -31,7 +31,7 @@ class DokumenController extends Controller
         $file = $request->file('file_dokumen');
         $fileName = time() . '_' . Str::slug($request->jenis_dokumen) . '.' . $file->getClientOriginalExtension();
         
-        // Store file in storage/app/public/dokumen
+        
         $path = $file->storeAs('public/dokumen', $fileName);
 
         $dokumen = new Dokumen();
@@ -40,7 +40,7 @@ class DokumenController extends Controller
         $dokumen->jenisdokumen = $request->jenis_dokumen;
         $dokumen->filepath = $path;
         $dokumen->statusVerifikasi = 'menunggu';
-        // lombaid is now nullable, so we don't need to set it
+        
         $dokumen->save();
 
         return redirect()->route('mahasiswa.dokumen.index')
@@ -62,10 +62,10 @@ class DokumenController extends Controller
                          ->where('userid', Auth::id())
                          ->firstOrFail();
 
-        // Delete file from storage
+        
         Storage::delete($dokumen->filepath);
         
-        // Delete record from database
+        
         $dokumen->delete();
 
         return redirect()->route('mahasiswa.dokumen.index')
